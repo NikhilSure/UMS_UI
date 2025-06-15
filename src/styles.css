@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Raleway:wght@300;700&display=swap');
+
+body {
+  font-family: 'Raleway', 'Montserrat', sans-serif;
+    color: #9d7e6f;
+}
+
+
+body, app-root {
+  margin: 0;
+  /* padding: 2px; */
+  background-color: #FFE5B4;
+}
+
+

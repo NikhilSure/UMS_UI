@@ -1,15 +1,19 @@
-import { ApplicationConfig } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 
-import lara from '@primeng/themes/lara';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import Aura from '@primeng/themes/aura';
 
-export const appConfig: ApplicationConfig = {
+export const appConfig = {
     providers: [
+        provideHttpClient(),
+        provideRouter(routes),
         provideAnimationsAsync(),
         providePrimeNG({
             theme: {
-                preset: lara,
+                preset: Aura,
                 options: {
                     prefix: 'p',
                     darkModeSelector: 'system',
