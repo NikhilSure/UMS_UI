@@ -1,0 +1,50 @@
+<!-- <div></div> -->
+<p-card styleClass="w-18rem " [style]="{ height: '400px', overflow: 'hidden' }">
+  <ng-template #header>
+    <div
+      class="w-full"
+      style="
+        height: 300px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      "
+      [style.background-image]="'url(' + book.imageUrl + ')'"
+    >
+  <div class="flex justify-content-between align-items-center">
+      <p-tag [value]="'₹' + book.price" severity="success"></p-tag>
+    </div></div>
+  </ng-template>
+
+  <ng-template #title>
+    <div class="text-sm font-bold">{{ book.title }}</div>
+    <div class="ml-3    text-xs mt-1">By {{ book.author }}</div>
+  </ng-template>
+
+  <div class="flex flex-column gap-1">
+    <div class="flex flex-wrap gap-1">
+      @for (category of book.categories; track $index) {
+        <p-tag [value]="category" rounded="true" styleClass="text-xs"></p-tag>
+      }
+    </div>
+  </div>
+
+  <ng-template #footer>
+    <div class="flex gap-2 mt-1">
+      <p-button
+        size="small"
+        label="Details"
+        icon="pi pi-eye"
+        class="p-button-sm"
+        severity="secondary"
+      />
+      <p-button
+        size="small"
+        label="Add"
+        icon="pi pi-shopping-cart"
+        class="p-button-sm w-full"
+        styleClass="w-full"
+      />
+    </div>
+  </ng-template>
+</p-card>

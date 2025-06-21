@@ -1,9 +1,12 @@
 <!-- app.component.html -->
-<div class="flex flex-column">
-  <div>
+<div class="flex">
+  <!-- Fixed Sidebar -->
+  <div class="relative top-0 left-0 h-screen w-60 z-10 shadow-md">
     <app-side-menu-bar></app-side-menu-bar>
   </div>
-  <div class="bg-orange-100 px-6">
+
+  <!-- Main Content Area -->
+  <div class="ml-60 flex-1 min-h-screen px-4">
     <router-outlet></router-outlet>
   </div>
 </div>

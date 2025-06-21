@@ -20,8 +20,8 @@ import { AvatarModule } from 'primeng/avatar';
     TagModule,
     CardModule,
     RatingModule,
-    FormsModule
-  ],
+    FormsModule,
+],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
