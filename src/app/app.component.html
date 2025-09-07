@@ -1,12 +1,13 @@
-<!-- app.component.html -->
-<div class="flex">
-  <!-- Fixed Sidebar -->
-  <div class="relative top-0 left-0 h-screen w-60 z-10 shadow-md">
+<div>
+  <!-- Top Menu Bar -->
+  <div class="m-0">
     <app-side-menu-bar></app-side-menu-bar>
   </div>
 
   <!-- Main Content Area -->
-  <div class="ml-60 flex-1 min-h-screen px-4">
-    <router-outlet></router-outlet>
+  <div class="bg-color p-4">
+    <p-scrollpanel styleClass="w-full" [style]="{height: '80vh' }">
+      <router-outlet></router-outlet>
+  </p-scrollpanel>
   </div>
 </div>

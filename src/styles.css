@@ -2,14 +2,32 @@
 
 body {
   font-family: 'Raleway', 'Montserrat', sans-serif;
-    color: #9d7e6f;
+    /* color: #9d7e6f; */
 }
 
 
 body {
   margin: 0;
   padding: 2px;
-  background-color: #f1dcb6;
+  /* background-color: #f1dcb6; */
+}
+
+input.p-inputtext,
+textarea.p-inputtext,
+select.p-inputtext,
+.p-select,
+.p-inputtext,
+.p-dropdown,
+.p-calendar,
+.p-inputtextarea,
+.p-multiselect,
+.p-autocomplete,
+.p-chips {
+  background-color: #f0f9ff !important; /* PrimeFlex bg-blue-50 */
+}
+
+.bg-color {
+  /* background: linear-gradient(90deg, #f6fff7 0%, #b1c2e0 100%); */
 }
 
 

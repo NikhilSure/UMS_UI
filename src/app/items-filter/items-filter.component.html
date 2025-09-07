@@ -1,89 +1,94 @@
-<div class="flex flex-column gap-1 p-3 shadow-md">
-  <div class="text-xl font-semibold flex align-items-center gap-2">
-    <i class="pi pi-filter text-primary"></i>
-    Filter Books
-  </div>
+<div class="shadow-1">
+  <!-- <p-button type="button" styleClass="w-13rem w-full"  label="Filters" (onClick)="toggle($event)"  /> -->
 
-  <!-- Title Search -->
-  <div class="flex flex-column gap-2">
-    <label for="title" class="font-medium">Title</label>
-    <span class="p-input-icon-left w-full">
-      <i class="pi pi-search" ></i>
-      <input
-        pSize="small"
-        pInputText
-        id="title"
-        [(ngModel)]="filters.title"
+  <div class="flex flex-column bg-white gap-1 p-3 shadow-md">
+    <div class="text-xl font-semibold flex align-items-center gap-2">
+      <i class="pi pi-filter text-primary"></i>
+      Filter Books
+    </div>
+  
+    <!-- Title Search -->
+    <div class="flex flex-column gap-2">
+      <label for="title" class="font-medium">Title</label>
+      <span class="p-input-icon-left w-full">
+        <i class="pi pi-search" ></i>
+        <input
+          pSize="small"
+          pInputText
+          id="title"
+          [(ngModel)]="filters.title"
+          (ngModelChange)="applyFilters()"
+          placeholder="Search title"
+          class="w-full"
+        />
+      </span>
+    </div>
+  
+    <!-- Category Dropdown -->
+    <div class="flex flex-column gap-2">
+      <label for="category" class="font-medium">Category</label>
+      <p-select
+        size="small"
+        id="category"
+        [options]="categoryOptions"
+        optionLabel="name"
+        [(ngModel)]="filters.category"
         (ngModelChange)="applyFilters()"
-        placeholder="Search title"
+        placeholder="All Categories"
+        class="w-full"
+        showClear
+      />
+    </div>
+  
+    <!-- Author MultiSelect -->
+    <div class="flex flex-column gap-2">
+      <label for="authors" class="font-medium">Author</label>
+      <p-multiSelect
+        size="small"
+        inputId="authors"
+        [options]="authorOptions"
+        [(ngModel)]="filters.authors"
+        (ngModelChange)="applyFilters()"
+        placeholder="Select authors"
+        display="chip"
         class="w-full"
       />
-    </span>
-  </div>
-
-  <!-- Category Dropdown -->
-  <div class="flex flex-column gap-2">
-    <label for="category" class="font-medium">Category</label>
-    <p-select
-      size="small"
-      id="category"
-      [options]="categoryOptions"
-      optionLabel="name"
-      [(ngModel)]="filters.category"
-      (ngModelChange)="applyFilters()"
-      placeholder="All Categories"
-      class="w-full"
-      showClear
-    />
-  </div>
-
-  <!-- Author MultiSelect -->
-  <div class="flex flex-column gap-2">
-    <label for="authors" class="font-medium">Author</label>
-    <p-multiSelect
-      size="small"
-      inputId="authors"
-      [options]="authorOptions"
-      [(ngModel)]="filters.authors"
-      (ngModelChange)="applyFilters()"
-      placeholder="Select authors"
-      display="chip"
-      class="w-full"
-    />
-  </div>
-
-  <!-- Price Slider -->
-  <div class="flex flex-column gap-2">
-    <label class="font-medium">Price (₹)</label>
-    <p-slider
-      [(ngModel)]="filters.price"
-      [min]="0"
-      [max]="1000"
-      [range]="true"
-      (onChange)="applyFilters()"
-    />
-    <div class="text-sm text-secondary">₹{{ filters.price[0] }} – ₹{{ filters.price[1] }}</div>
-  </div>
-
-  <!-- Rating -->
-  <div class="flex flex-column gap-2">
-    <label class="font-medium">Minimum Rating</label>
-    <div class="flex gap-2">
-        @for (item of ratings; track $index) {
-            <button
-              pButton
-              [label]="item + '★'"
-              (click)="filters.rating = item; applyFilters()"
-              [class.p-button-outlined]="filters.rating !== item"
-              [class.p-button-success]="filters.rating === item"
-              class="p-button-sm"
-            ></button>
-        }
+    </div>
+  
+    <!-- Price Slider -->
+    <div class="flex flex-column gap-2">
+      <label class="font-medium">Price (₹)</label>
+      <p-slider
+        [(ngModel)]="filters.price"
+        [min]="0"
+        [max]="1000"
+        [range]="true"
+        (onChange)="applyFilters()"
+      />
+      <div class="text-sm text-secondary">₹{{ filters.price[0] }} – ₹{{ filters.price[1] }}</div>
+    </div>
+  
+    <!-- Rating -->
+    <div class="flex flex-column gap-2">
+      <label class="font-medium">Minimum Rating</label>
+      <div class="flex gap-2">
+          @for (item of ratings; track $index) {
+              <button
+                pButton
+                [label]="item + '★'"
+                (click)="filters.rating = item; applyFilters()"
+                [class.p-button-outlined]="filters.rating !== item"
+                [class.p-button-info]="filters.rating === item"
+                class="p-button-sm"
+              ></button>
+          }
+      </div>
+    </div>
+  
+    <!-- Reset Button -->
+    <div class="flex justify-content-end">
+      <button pButton  label="Reset All" size="small" icon="pi pi-refresh" class="p-button-secondary" (click)="resetFilters()" ></button>
     </div>
   </div>
-
-  <!-- Reset Button -->
-  <div class="flex justify-content-end">
-    <button pButton  label="Reset All" size="small" icon="pi pi-refresh" class="p-button-secondary" (click)="resetFilters()" ></button>
-  </div>
-</div>
+ <p-popover styleClass="border-1 border-primary" #op>
+ </p-popover>

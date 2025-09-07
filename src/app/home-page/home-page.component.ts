@@ -8,6 +8,11 @@ import { CommonModule } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
+import { ChartModule } from 'primeng/chart';
+import { environment } from '../../environments/environment';
+import { APP_CONST } from '../app-conts';
+import { Subject, takeUntil } from 'rxjs';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 
 
 @Component({
@@ -20,23 +25,37 @@ import { AvatarModule } from 'primeng/avatar';
     TagModule,
     CardModule,
     RatingModule,
+    ChartModule,
     FormsModule,
+    
 ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
   title = 'UMS_UI';
+  doughnutChartOptions:any;
+  spinner = false;
+  // inventoryChartData: any;
+  inventoryChartData: any = {
+    labels: ['Available', 'Issued', 'Reserved'],
+    datasets: [
+      {
+        data: [120, 80, 30],
+        backgroundColor: ['#5dade2 ', '#3498db', '#5dade2'],  // green, orange, blue
+        borderWidth: 2,
+        borderColor: '#fff'
+      }
+    ]
+  };
+  
 
-  imageItems = [
-  { src: 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D', name: 'Nature Pulse' },
-  { src: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png', name: 'Urban Glimpse' },
-  { src: 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D', name: 'Golden Breeze' },
-  { src: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png', name: 'Pixel Frame' },
-  { src: 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D', name: 'Cinematic Sky' },
-  { src: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png', name: 'Retro Frame' },
-  { src: 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D', name: 'Sunset Hue' },
-  { src: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png', name: 'Street Lens' }
+  destroy: any = new Subject();
+
+  authors: any[] = [
+  // { src: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png', name: 'Retro Frame' },
+  // { src: 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D', name: 'Sunset Hue' },
+  // { src: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png', name: 'Street Lens' }
 ];
 
 
@@ -84,6 +103,45 @@ export class HomePageComponent {
     private http:HttpClient
   ) {
     // this.loadProducts();
+    
+    this.doughnutChartOptions = {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' },
+        title: { display: true, text: 'Inventory Distribution' }
+      }
+    };
+  }
+
+  ngOnInit() {
+    this.getAuthors();
+  }
+
+  getAuthors() {
+    this.authors = [];
+    this.spinner = true;
+
+    this.http.get<any[]>(environment.apiUrl + APP_CONST.API_MAPPINGS.getAuthors).pipe(takeUntil(this.destroy)).subscribe((response: any) => {
+      this.spinner = false;
+      this.authors = response.data;
+      console.log(this.authors)
+
+      this.authors = this.authors.map((item: any) => {
+        console.log(environment.imageUrl + item.profilePicUrl);
+        item.profilePicUrl = environment.imageUrl + item.profilePicUrl 
+        return item
+      });
+    },(err) => {
+      this.spinner = false;
+      console.log('error while fetching authors');
+      this.authors = [
+        { src: 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D', name: 'Nature Pulse' },
+        { src: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png', name: 'Urban Glimpse' },
+        { src: 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D', name: 'Golden Breeze' },
+        { src: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png', name: 'Pixel Frame' },
+        { src: 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D', name: 'Cinematic Sky' },
+      ]
+    });
   }
 
   // loadProducts() {

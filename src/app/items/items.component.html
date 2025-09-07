@@ -1,20 +1,18 @@
-<div class="h-screen">
+<div class="flex">
   <!-- Sidebar Filter -->
-  <div>
-     <p-button type="button"  label="filters" (onClick)="toggle($event)" styleClass="min-w-48" />
-
-    <p-popover styleClass="bg-primary" #op>
-        <app-items-filter></app-items-filter>
-
-    </p-popover>
-  </div>
+   <div>
+           <app-items-filter></app-items-filter>
+   </div>
 
   <!-- Main Content -->
-  <div class="p-2 grid">
-    @for (book of books; track $index) {
-        <div class="col-3">
-        <app-item-card [book]="book" ></app-item-card>
-      </div>
-      }
-  </div>
+   
+  <p-scrollpanel styleClass="h-screen">
+    <div class="flex flex-wrap gap-3">
+      @for (book of books; track $index) {
+          <div>
+          <app-item-card [book]="book" ></app-item-card>
+        </div>
+        }
+    </div>
+  </p-scrollpanel>
 </div>

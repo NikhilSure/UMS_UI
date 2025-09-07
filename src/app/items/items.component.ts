@@ -3,6 +3,8 @@ import { ItemCardComponent } from '../item-card/item-card.component';
 import { ItemsFilterComponent } from "../items-filter/items-filter.component";
 import { ButtonModule } from 'primeng/button';
 import { PopoverModule } from 'primeng/popover';
+import { CardModule } from 'primeng/card';
+import { ScrollPanel } from 'primeng/scrollpanel';
 
 @Component({
   selector: 'app-items',
@@ -11,17 +13,12 @@ import { PopoverModule } from 'primeng/popover';
     ,
     ButtonModule
     ,
-    PopoverModule
+    PopoverModule, CardModule, ScrollPanel
   ],
   templateUrl: './items.component.html',
   styleUrl: './items.component.css'
 })
 export class ItemsComponent {
-   @ViewChild('op') op!: any;
-
-     toggle(event:any) {
-        this.op.toggle(event);
-    }
 
     books:any = [
   {

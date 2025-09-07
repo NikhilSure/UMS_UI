@@ -1,0 +1,60 @@
+<div class="grid">
+    <!-- Chart 1: Books Read by Genre -->
+    <div class="col-12 md:col-6 xl:col-4">
+      <p-card header="Books Read by Genre">
+        <p-chart type="doughnut" [data]="genreChartData" [options]="barChartOptions"></p-chart>
+      </p-card>
+    </div>
+  
+    <!-- Chart 2: User Login Sessions -->
+    <div class="col-12 md:col-6 xl:col-4">
+      <p-card header="User Login Sessions">
+        <p-chart type="line" [data]="loginChartData" [options]="lineChartOptions"></p-chart>
+      </p-card>
+    </div>
+  
+    <!-- Chart 3: Book Inventory Status -->
+    <div class="col-12 md:col-6 xl:col-4">
+      <p-card header="Book Inventory Status">
+        <p-chart type="bar" [data]="inventoryChartData" [options]="doughnutChartOptions"></p-chart>
+      </p-card>
+    </div>
+
+    <p-card>
+        <div class="text-xl font-semibold mb-3 flex align-items-center gap-2">
+          <i class="pi pi-book text-primary"></i>
+          User's Reading Activity
+        </div>
+      
+        <p-table [value]="readingData" responsiveLayout="scroll" class="p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="bg-gray-100">
+                <i class="pi pi-calendar text-secondary mr-2"></i> Date
+              </th>
+              <th class="bg-gray-100">
+                <i class="pi pi-book-open text-secondary mr-2"></i> Books Read
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+            <tr [ngClass]="{ 'bg-gray-100': index % 2 !== 0 }">
+              <td>
+                <i class="pi pi-clock text-sm text-blue-500 mr-1"></i>
+                {{ rowData.date | date: 'fullDate' }}
+              </td>
+              <td>
+                <ul class="list-none m-0 p-0">
+                  <li *ngFor="let book of rowData.books" class="flex align-items-center gap-2">
+                    <i class="pi pi-bookmark text-green-500"></i>
+                    <span>{{ book }}</span>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </ng-template>
+          
+        </p-table>
+      </p-card>
+  </div>
+  

@@ -1,0 +1,146 @@
+<div class="relative grid">
+    <app-spinner [spinner]="spinner"></app-spinner>
+    <div class="col-3">
+        <!-- . -->
+        <div class="shadow-1 border-round my-1 p-3">
+            <input class="w-full" (input)="searchEntity($event)" id="title" type="text" pInputText 
+            placeholder="search for" />
+        </div>
+        <p-scrollpanel styleClass="w-full shadow-1" [style]="{height: '70vh' }">
+         <p-card styleClass="w-full">
+        <div class="flex-1">
+            <!-- authors -->
+            @for (item of filterItems 
+            ; track $index) {
+                <div class="bg-blue-50  shadow-1 m-2 border-round flex gap-2 align-items-center justify-content-between p-3">
+                <div class="flex align-items-center gap-1">
+                  <p-avatar [image]="item.src" size="large" shape="circle" />
+          
+                  <div class="flex font-semibold">
+                    {{item.name}}
+                  </div>
+                  </div>
+                  
+                  <i class="pi pi-angle-right text-blue-500"></i>
+                </div>
+              }
+            </div>
+        </p-card>
+    </p-scrollpanel>
+    </div>
+
+    <div class="col-8 bg-black-alpha-100">
+        <div class="flex justify-content-between">
+            <div></div>
+            <p-button [label]=" 'Add ' + (entityType == 'AUTHOR' ? 'Author' : 'Book')" icon="pi pi-plus" (onClick)="openAddPopup()" size="small" styleClass="w-10rem"></p-button>
+        </div>
+        <p-chart type="line"  [data]="bookChartData" [options]="bookChartOptions"></p-chart>
+    </div>
+
+    <p-dialog modal="true" [(visible)]="addPopupVisisble" styleClass="w-30rem">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="grid gap-4">
+
+            @if (entityType == "BOOK") {
+                <!-- Title -->
+                <div class="col-12 md:col-12 flex flex-column">
+                    <label for="title" class="font-semibold">Title</label>
+                    <input pSize="small" id="title" type="text" pInputText formControlName="title"
+                        placeholder="Enter book title" />
+                    <small class="text-red-500" *ngIf="form.get('title')?.touched && form.get('title')?.invalid">
+                        Title is required.
+                    </small>
+                </div>
+    
+                <!-- Author -->
+                <div class="col-12 md:col-6 flex flex-column">
+                    <label for="author" class="font-semibold">Author</label>
+                    <input pSize="small" id="author" type="text" pInputText formControlName="author"
+                        placeholder="Enter author name" />
+                    <small class="text-red-500" *ngIf="form.get('author')?.touched && form.get('author')?.invalid">
+                        Author is required.
+                    </small>
+                </div>
+    
+                <!-- Genre -->
+                <div class="col-12 md:col-6 flex flex-column">
+                    <label for="genre" class="font-semibold">Genre</label>
+                    <p-select [options]="genres" formControlName="genre" placeholder="Select Genre" size="small"
+                        optionLabel="name" />
+                    <small class="text-red-500" *ngIf="form.get('genre')?.touched && form.get('genre')?.invalid">
+                        Genre is required.
+                    </small>
+                </div>
+    
+                <!-- Publisher -->
+                <div class="col-12 md:col-6 flex flex-column">
+                    <label for="publisher" class="font-semibold">Publisher</label>
+                    <input pSize="small" id="publisher" type="text" pInputText formControlName="publisher"
+                        placeholder="Enter publisher name" />
+                    <small class="text-red-500"
+                        *ngIf="form.get('publisher')?.touched && form.get('publisher')?.invalid">
+                        Publisher is required.
+                    </small>
+                </div>
+    
+                <!-- Year -->
+                <div class="col-6 md:col-6 flex flex-column">
+                    <label for="year" class="font-semibold">Year</label>
+                    <input pSize="small" id="year" type="number" pInputText formControlName="year" placeholder="YYYY" />
+                    <small class="text-red-500" *ngIf="form.get('year')?.touched && form.get('year')?.invalid">
+                        Enter a valid year.
+                    </small>
+                </div>
+    
+                <!-- Price -->
+                <div class="col-6 md:col-6 flex flex-column">
+                    <label for="price" class="font-semibold">Price ₹</label>
+                    <input pSize="small" id="price" type="number" pInputText formControlName="price"
+                        placeholder="Eg: 499" />
+                    <small class="text-red-500" *ngIf="form.get('price')?.touched && form.get('price')?.invalid">
+                        Enter a valid price.
+                    </small>
+                </div>
+
+            }
+            @else if (entityType == "AUTHOR") {
+                <div class="col-12 md:col-12 flex flex-column">
+                    <label for="fullname" class="font-semibold">Full Name</label>
+                    <input pInputText pSize="small" id="fullname" formControlName="fullname" placeholder="Enter full name" />
+                    <small class="text-red-500" *ngIf="form.get('fullname')?.touched && form.get('fullname')?.invalid">
+                        Full name is required.
+                    </small>
+                    </div>
+                
+                    <!-- Biography -->
+                    <div class="col-12 flex flex-column">
+                    <label for="bio" class="font-semibold">Biography</label>
+                    <textarea pInputTextarea rows="4" formControlName="bio" placeholder="Short biography..."></textarea>
+                    </div>
+            }
+
+            <!-- Book Image -->
+            @if (entityType == "BOOK" || entityType == "AUTHOR") {
+                    <div class="col-12 md:col-12 flex flex-column">
+                    <label for="image" class="font-semibold">Image</label>
+                    <div class="bg-gray-200 p-4 border-1 border-round">
+                        <p-fileUpload name="file" mode="basic" chooseLabel="Upload Image" auto customUpload
+                            (uploadHandler)="onImageUpload($event)" />
+                    </div>
+                </div>
+    
+                <div class="col-12 md:col-12 flex flex-column justify-content-center h-10rem">
+                    <div *ngIf="imageUrl" class="mt-3 text-center">
+                        <img [src]="imageUrl" alt="Book Preview" class="h-10rem border-round shadow-2" />
+                    </div>
+                </div>
+            }
+
+            <!-- Submit Button -->
+            <div class="col-12">
+                <button type="submit" severity="info" pButton label="Add Book" icon="pi pi-check"
+                    [disabled]="form.invalid" class="bg-blue-600 w-full mt-2 p-button-success"></button>
+            </div>
+        </form>
+    </p-dialog>
+
+</div>

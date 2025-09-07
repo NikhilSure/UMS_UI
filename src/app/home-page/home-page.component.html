@@ -1,8 +1,7 @@
 <!-- Fullscreen Centered Carousel Section -->
 <div class="grid row-gap-2">
-  <!-- <> -->
-  <div class="col-4 flex flex-column gap-2">
-    <div class=" m-x5 text-6xl text-orange-400  font-bold">
+  <div class="col-4 flex flex-column justify-content-center gap-2">
+    <div class=" m-x5 text-6xl text-blue-600  font-bold">
       Find Books <br>
       All At Once
     </div>
@@ -10,74 +9,46 @@
       Elegant tones, earthy warmth, and smooth readability—styled to inspire calm and clarity."
     </span>
 
-    <div  class="ml-4">
-      <p-button styleClass="w-10rem shadow-4 text-white" size="small" severity="warn" icon="pi pi-arrow-right" label="Explore" ></p-button>
+    <div class="ml-4">
+      <p-button styleClass="w-10rem shadow-4 text-white bg-blue-700" variant="outlined" size="small"
+        icon="pi pi-arrow-right" label="Explore"></p-button>
     </div>
 
   </div>
-  <div class="col-8">
+  <div class="col-4">
     <div class="border-round">
-      <p-carousel
-        [value]="products"
-        [numVisible]="1"
-        [numScroll]="1"
-        [circular]="true"
-        showNavigators="false"
-        showIndicators="false"
-        [autoplayInterval]="3000"
-      >
-        <ng-template pTemplate="item" let-product class="shadow-1">
-          <div
-          style="height: 40vh;"
-            class="flex justify-content-end align-items-end flex-column text-white"
-            [ngStyle]="{
-              'background-image': 'url(' + product.image + ')',
-              'background-size': 'cover',
-              'background-position': 'center'
-            }"
-          >
-  
-            <!-- Product Name Banner -->
-            <div class="text-white-alpha-90 font-bold">
-              {{ product.title }}
-            </div>
-          </div>
-        </ng-template>
-      </p-carousel>
+      <p-chart type="doughnut"  [data]="inventoryChartData" [options]="doughnutChartOptions" height="400"></p-chart>
     </div>
   </div>
-
-  <div class="col-12 grid">
-    @for (item of imageItems; track $index) {
-      <div class=" col-2 shadow-1 m-2 border-round flex gap-2 align-items-center justify-content-center">
-          <p-avatar  [image]="item.src" size="large" shape="circle"/>
-
-        <div class="flex">
-          {{item.name}}
+  
+  <div class="flex flex-wrap justify-content-between">
+    @for (item of authors; track $index) {
+      <div class="bg-blue-50 border-1 border-black-alpha-10 px-1 w-15rem shadow-1 m-2 border-round flex gap-2 align-items-center justify-content-center">
+        <p-avatar [image]="item?.profilePicUrl" size="large" shape="circle" />
+        <div class="flex font-semibold">
+          {{item?.fullname}}
         </div>
-        <i  class="pi pi-angle-right"></i>
+        <i class="pi pi-angle-right"></i>
       </div>
     }
   </div>
 
   <div class="col-12">
-    <div class="grid">
-      @for (item of imageItems; track $index) {
-        <div class="flex gap-2 col-3 shadow-1 p-2">
-          <img height="100" [src]="item.src" alt="">
-          <div>
-            <span class="text-black-alpha-80 font-medium">{{item.name}}</span>
-            <br>
-            <span class="text-400 text-1xl">By: {{item.name}}</span>
-            <br>
-            <div class="w-1rem flex">
-              <p-rating  iconOnClass="" readonly="true" [ngModel]="1" stars="1"  /> {{$index}}
-            </div>
+    <p-carousel [value]="products" [numVisible]="1" [numScroll]="1" [circular]="true" showNavigators="false"
+      showIndicators="false" [autoplayInterval]="3000">
+      <ng-template pTemplate="item" let-product class="shadow-1">
+        <div style="height: 40vh;" class="flex justify-content-end align-items-end flex-column text-white" [ngStyle]="{
+          'background-image': 'url(' + product.image + ')',
+          'background-size': 'cover',
+          'background-position': 'center'
+        }">
+
+          <!-- Product Name Banner -->
+          <div class="text-white-alpha-90 font-bold">
+            {{ product.title }}
           </div>
         </div>
-        <!-- <p-card>
-        </p-card> -->
-      }
-    </div>
+      </ng-template>
+    </p-carousel>
   </div>
 </div>

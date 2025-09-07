@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DropdownModule } from 'primeng/dropdown';
 import { SliderModule } from 'primeng/slider';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,12 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
+import { PopoverModule } from 'primeng/popover';
 
 @Component({
   selector: 'app-items-filter',
   imports: [
      FormsModule, 
     SliderModule,
+    PopoverModule,
     InputTextModule,
     ButtonModule,
     MultiSelectModule,
@@ -28,6 +30,12 @@ filters:any = {
   price: [0, 1000],
   rating: null
 };
+
+@ViewChild('op') op!: any;
+
+toggle(event:any) {
+   this.op.toggle(event);
+}
 
 categoryOptions = [
   { name: 'All', value: null },

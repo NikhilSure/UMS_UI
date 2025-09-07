@@ -4,10 +4,10 @@ import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
-
+import { RouterLink, RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-side-menu-bar',
-  imports: [MenubarModule, BadgeModule, AvatarModule, CommonModule, InputTextModule
+  imports: [MenubarModule, BadgeModule,RouterLink, RouterLinkActive, AvatarModule, CommonModule, InputTextModule
   ],
   templateUrl: './side-menu-bar.component.html',
   styleUrl: './side-menu-bar.component.css'
@@ -16,32 +16,18 @@ export class SideMenuBarComponent {
   items = [
             {
                 label: 'Home',
-                icon: 'pi pi-home'
+                icon: 'pi pi-home',
+                link: '/home'
             },
             {
-                label: 'Projects',
+                label: 'Books',
                 icon: 'pi pi-search',
-                badge: '3',
-                items: [
-                    {
-                        label: 'Core',
-                        icon: 'pi pi-bolt',
-                        shortcut: '⌘+S',
-                    },
-                    {
-                        label: 'Blocks',
-                        icon: 'pi pi-server',
-                        shortcut: '⌘+B',
-                    },
-                    {
-                        separator: true,
-                    },
-                    {
-                        label: 'UI Kit',
-                        icon: 'pi pi-pencil',
-                        shortcut: '⌘+U',
-                    },
-                ],
+                link: '/items'
             },
+            {
+              label: 'Metrics',
+              icon: 'pi pi-chart',
+              link: 'metrics'
+            }
         ];
 }
